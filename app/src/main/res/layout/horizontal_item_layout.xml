@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/follower"
+        app:layout_constraintEnd_toStartOf="@id/name"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/iphone_13"
+        />
+
+    <androidx.cardview.widget.CardView
+        app:layout_constraintEnd_toEndOf="@id/image"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="18dp"
+        app:cardBackgroundColor="@color/purple_500"
+        app:cardCornerRadius="18dp"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="%10"
+            android:gravity="center"
+            android:textColor="@color/white"
+            />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="iPhone 13 128 GB"
+        android:textSize="12dp"
+        android:textColor="@color/teal_200"
+        />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        app:layout_constraintStart_toStartOf="@id/name"
+        android:text="20.567,00TL"
+        android:layout_marginTop="16dp"
+        android:textSize="24dp"
+        />
+
+    <TextView
+        android:id="@+id/seller"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/price"
+        app:layout_constraintStart_toStartOf="@id/price"
+        android:text="131 satici >"
+        android:textSize="10dp"
+        />
+
+    <TextView
+        android:id="@+id/follower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/seller"
+        app:layout_constraintStart_toStartOf="@id/price"
+        android:layout_marginTop="16dp"
+        android:text="3.000+ takip"
+        android:textSize="10dp"
+        />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
