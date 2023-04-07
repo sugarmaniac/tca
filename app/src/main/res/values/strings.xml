@@ -2,4 +2,5 @@
     <string name="app_name">Test Case Akakce</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="satici_icinde_kargo_dahil_en_ucuz_fiyat_secenegi">%1$d satici icinde kargo dahil en ucuz fiyat secenegi</string>
 </resources>

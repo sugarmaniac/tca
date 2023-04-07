@@ -1,7 +1,12 @@
 package com.sugarmaniac.data
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 data class Result(
-    val horizontalProducts: List<HorizontalProduct>,
+    @JsonProperty("horizontalProducts")
+    val horizontalProducts: List<HorizontalItem>,
+    @JsonProperty("nextUrl")
     val nextUrl: String?,
-    val products: List<Product>
+    @JsonProperty("products")
+    val products: List<VerticalItem>
 )

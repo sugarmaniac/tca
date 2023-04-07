@@ -1,6 +1,6 @@
 package com.sugarmaniac.data
 
-data class Product(
+data class HorizontalItem(
     val code: Int,
     val countOfPrices: Int,
     val dropRatio: Double,
