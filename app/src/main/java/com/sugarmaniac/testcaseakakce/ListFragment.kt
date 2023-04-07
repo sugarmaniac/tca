@@ -45,6 +45,11 @@ class ListFragment : Fragment() {
 
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(binding.horizontalRv)
+
+        val indicator = binding.indicator
+        indicator.attachToRecyclerView(binding.horizontalRv, snapHelper)
+        verticalAdapter.registerAdapterDataObserver(indicator.adapterDataObserver)
+
     }
 
     private fun initObservers(){

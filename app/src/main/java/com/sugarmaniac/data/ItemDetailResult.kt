@@ -7,7 +7,7 @@ data class ItemDetailResult(
     val imageUrl: String,
     val lastUpdate: String,
     val mkName: String,
-    val price: Int,
+    val price: Float,
     val productName: String,
     val rating: Double,
     val storageOptions: List<String>

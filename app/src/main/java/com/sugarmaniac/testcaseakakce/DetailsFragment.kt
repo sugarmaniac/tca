@@ -44,7 +44,7 @@ class DetailsFragment : Fragment() {
         sharedViewModel.currentItem.observe(viewLifecycleOwner){
             binding.name.text = it.mkName
             binding.lastUpdate.text = it.lastUpdate
-            binding.price.text = it.price.toString()
+            binding.price.text = getString(R.string.pricing, it.price)
             Glide.with(requireContext())
                 .load(it.imageUrl) to binding.image
             binding.mostPopular.text = it.badge

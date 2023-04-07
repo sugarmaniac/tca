@@ -3,6 +3,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sugarmaniac.data.HorizontalItem
+import com.sugarmaniac.testcaseakakce.R
 import com.sugarmaniac.testcaseakakce.databinding.HorizontalItemLayoutBinding
 
 class HorizontalItemAdapter(private var horizontalItems: List<HorizontalItem>, private val listener : (input: String) -> Unit) : RecyclerView.Adapter<HorizontalItemAdapter.HorizontalItemHolder>() {
@@ -19,7 +20,7 @@ class HorizontalItemAdapter(private var horizontalItems: List<HorizontalItem>, p
         with(holder){
             with(horizontalItems[position]) {
                 binding.name.text = horizontalItems[position].name
-                binding.price.text = horizontalItems[position].price.toString()
+                binding.price.text = holder.itemView.context.getString(R.string.pricing, horizontalItems[position].price)
                 binding.discount.text = "%" + horizontalItems[position].dropRatio.toString()
                 binding.follower.text = horizontalItems[position].followCount.toString() + "+ takip"
                 binding.seller.text = horizontalItems[position].countOfPrices.toString() + " satici >"

@@ -3,6 +3,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sugarmaniac.data.VerticalItem
+import com.sugarmaniac.testcaseakakce.R
 import com.sugarmaniac.testcaseakakce.databinding.VerticalItemLayoutBinding
 
 class VerticalItemAdapter(private var verticalItems: List<VerticalItem>, private val listener : (input: String) -> Unit) : RecyclerView.Adapter<VerticalItemAdapter.VerticalItemHolder>() {
@@ -19,7 +20,7 @@ class VerticalItemAdapter(private var verticalItems: List<VerticalItem>, private
         with(holder){
             with(verticalItems[position]) {
                 binding.name.text = verticalItems[position].name
-                binding.price.text = verticalItems[position].price.toString()
+                binding.price.text = holder.itemView.context.getString(R.string.pricing, verticalItems[position].price)
                 binding.discount.text = "%" + verticalItems[position].dropRatio.toString()
                 binding.follower.text = verticalItems[position].followCount.toString() + "+ takip"
                 binding.seller.text = verticalItems[position].countOfPrices.toString() + " satici >"
