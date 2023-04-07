@@ -3,33 +3,41 @@ package com.sugarmaniac.testcaseakakce
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import androidx.paging.map
 import com.google.gson.Gson
 import com.sugarmaniac.data.HorizontalItem
 import com.sugarmaniac.data.ItemDetailResult
 import com.sugarmaniac.data.PageData
 import com.sugarmaniac.data.VerticalItem
 import com.sugarmaniac.data.api.ApiService
+import com.sugarmaniac.data.api.PaginSource
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import retrofit2.Response
+import retrofit2.adapter.rxjava2.Result
 import java.net.URL
 
 class ItemsViewModel : ViewModel() {
 
     private val apiService = ApiService()
-    private val disposable = CompositeDisposable()
     private val firstLink = "https://mocki.io/v1/59906f35-d5d5-40f7-8d44-53fd26eb3a05"
     private val deviceLink = "https://mocki.io/v1/1a1fb542-22d1-4919-914a-750114879775?code="
-    private val pageUrlList = mutableListOf(firstLink)
+    private var pageData : PageData? = null
+    private var currentPage = 0
+
+    private var loading = false
 
     val currentItem = MutableLiveData<ItemDetailResult>()
-    val currentPage = MutableLiveData(1)
     val currentHorizontalItems = MutableLiveData<List<HorizontalItem>>(arrayListOf())
-    val currentVerticalItems = MutableLiveData<List<VerticalItem>>(arrayListOf())
-    var currentPageData : PageData? = null
+    val currentVerticalItems = MutableLiveData<MutableList<VerticalItem>>(arrayListOf())
 
     init {
-        fetchPage(firstLink)
+        fetchPage(firstLink, 0)
     }
 
     fun fetchDevice(code : String){
@@ -39,24 +47,31 @@ class ItemsViewModel : ViewModel() {
         }
     }
 
-    fun fetchPage(url : String){
+    fun fetchPage(url : String, position : Int){
+        if (loading)
+            return
+        loading = true
         viewModelScope.launch{
-            currentPageData = apiService.getPageDetails(url).body()
-            currentVerticalItems.value = currentPageData?.result?.products ?: emptyList()
-            currentHorizontalItems.value = currentPageData?.result?.horizontalProducts ?: emptyList()
+            pageData = apiService.getPageDetails(url).body()
+
+            if (position == 0){
+                currentVerticalItems.value = pageData?.result?.products?.toMutableList() ?: mutableListOf()
+                currentHorizontalItems.value = pageData?.result?.horizontalProducts ?: emptyList()
+            } else {
+                pageData?.result?.products?.toMutableList()
+                    ?.let { currentVerticalItems.value?.addAll(it) }
+                currentVerticalItems.value = currentVerticalItems.value
+            }
+            loading = false
         }
     }
 
-    fun nextPage(url : String){
-        currentPage.value = currentPage.value?.plus(1)
-        pageUrlList.add(currentPage.value!!, url)
-        fetchPage(pageUrlList[currentPage.value!!])
+    fun loadMore(){
+        currentPage += 1
+        if (pageData?.result?.nextUrl != null){
+//            currentPage += 1
+            pageData?.result?.nextUrl?.let { fetchPage(it, currentPage) }
+        }
     }
-
-    fun previousPage(url : String){
-        currentPage.value = currentPage.value?.minus(1)
-        fetchPage(pageUrlList[currentPage.value!!])
-    }
-
 
 }

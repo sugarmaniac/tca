@@ -43,7 +43,7 @@ class DetailsFragment : Fragment() {
     private fun initObservers() {
         sharedViewModel.currentItem.observe(viewLifecycleOwner){
             binding.name.text = it.mkName
-            binding.lastUpdate.text = it.lastUpdate
+            binding.lastUpdate.text = getString(R.string.last_update, it.lastUpdate)
             binding.price.text = getString(R.string.pricing, it.price)
             Glide.with(requireContext())
                 .load(it.imageUrl) to binding.image
@@ -54,6 +54,5 @@ class DetailsFragment : Fragment() {
             adapter.setList(it.storageOptions)
         }
     }
-
 
 }

@@ -3,13 +3,15 @@ package com.sugarmaniac.testcaseakakce
 import HorizontalItemAdapter
 import VerticalItemAdapter
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.sugarmaniac.testcaseakakce.databinding.FragmentListBinding
 
 
@@ -32,8 +34,31 @@ class ListFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentListBinding.inflate(inflater)
         initAdapters()
+        initPager()
         initObservers()
         return binding.root
+    }
+
+    private fun initPager() {
+
+        val layoutManager = binding.verticalRv.layoutManager as GridLayoutManager
+        binding.verticalRv.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+
+                    if (visibleItemCount + firstVisibleItemPosition >= totalItemCount
+                        && firstVisibleItemPosition >= 0
+                    ) {
+                        sharedViewModel.loadMore()
+                    }
+            }
+        })
+
     }
 
     private fun initAdapters() {
@@ -48,8 +73,7 @@ class ListFragment : Fragment() {
 
         val indicator = binding.indicator
         indicator.attachToRecyclerView(binding.horizontalRv, snapHelper)
-        verticalAdapter.registerAdapterDataObserver(indicator.adapterDataObserver)
-
+        horizontalAdapter.registerAdapterDataObserver(indicator.adapterDataObserver)
     }
 
     private fun initObservers(){

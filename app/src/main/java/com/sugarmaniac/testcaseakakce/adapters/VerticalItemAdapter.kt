@@ -1,5 +1,7 @@
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sugarmaniac.data.VerticalItem
@@ -38,8 +40,9 @@ class VerticalItemAdapter(private var verticalItems: List<VerticalItem>, private
     }
 
     fun setList(list : List<VerticalItem>){
+        val temp = verticalItems.size
         verticalItems = list
-        notifyItemRangeChanged(0, verticalItems.size)
+        notifyDataSetChanged()
     }
 
 
